@@ -1,18 +1,14 @@
-import { useEffect, useState } from 'react'
+import useSWR from "swr";
 
 export default function Home() {
-  const [message, setMessage] = useState()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('/api/hello')
-      const { message } = await res.json()
-      setMessage(message)
+  const { data, isLoading } = useSWR<{ message: string }, any, string>(
+    "/api/hello",
+    async (key) => {
+      const res = await fetch(key);
+      return await res.json();
     }
-    fetchData()
-  }, [])
+  );
 
-  if (!message) return <p>Loading...</p>
-
-  return <p>{message}</p>
+  if (isLoading) return <p>Loading...</p>;
+  return <p>{data?.message}</p>;
 }
