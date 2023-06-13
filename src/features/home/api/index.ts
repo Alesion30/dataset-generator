@@ -1,3 +1,4 @@
+import { LikertResponse } from "@/api/questionnaire";
 import { Person } from "@/features/person/schemas";
 import { Questionnaire } from "@/features/questionnaires/schemas";
 
@@ -13,7 +14,7 @@ export const gptApi = {
         questions: questionnaire.contents,
       }),
     });
-    const data = await res.json();
+    const data: LikertResponse = await res.json();
     return data;
   },
 };

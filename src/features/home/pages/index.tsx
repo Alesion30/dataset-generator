@@ -41,7 +41,7 @@ export const HomePage = () => {
       )!;
 
       const result = await gptApi.likert(person, questionnaire);
-      alert(JSON.stringify(result));
+      alert(JSON.stringify(result.data));
     },
   });
 

@@ -5,7 +5,7 @@ import { HumanChatMessage, SystemChatMessage } from "langchain/schema";
 import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
 import { questionnairePrompt } from "./prompt";
-import { csv2object } from "./utils";
+import { parseCSV } from "./utils";
 
 const questionnaireRoute = new Hono();
 const personalitySchema = z.object({
@@ -58,7 +58,7 @@ questionnaireRoute.post(
     ]);
 
     return c.json({
-      message: res.text,
+      data: res.text,
     });
   }
 );
@@ -80,10 +80,15 @@ questionnaireRoute.post(
     ]);
 
     return c.json({
-      message: res.text,
+      data: res.text,
     });
   }
 );
+
+export type LikertResponse = {
+  raw: string;
+  data: { question: string; answer: string }[];
+};
 
 questionnaireRoute.post(
   "/likert",
@@ -101,10 +106,12 @@ questionnaireRoute.post(
       new HumanChatMessage(message),
     ]);
 
-    const result = csv2object(res.text);
-    return c.json({
-      message: result,
-    });
+    const result = parseCSV(res.text);
+    const response: LikertResponse = {
+      raw: res.text,
+      data: result as LikertResponse["data"],
+    };
+    return c.json(response);
   }
 );
 
