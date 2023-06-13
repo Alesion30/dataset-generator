@@ -92,7 +92,7 @@ export const PersonForm = ({
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-end gap-x-6">
+      <div className="mt-6 flex items-center justify-end gap-x-4">
         <TextButton type="button" onClick={() => router.back()}>
           キャンセル
         </TextButton>
