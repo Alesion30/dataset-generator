@@ -17,7 +17,7 @@ export const Textarea = ({
     <div className="col-span-full">
       <label
         htmlFor={textareaProps.id}
-        className="block text-sm font-bold leading-6 text-gray-900"
+        className="block text-lg font-bold leading-6 text-gray-900"
       >
         {label}
       </label>

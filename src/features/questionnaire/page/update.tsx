@@ -1,5 +1,5 @@
 import { db } from "@/lib/firebase";
-import { collection, getDoc, doc, setDoc, updateDoc } from "firebase/firestore";
+import { collection, getDoc, doc, updateDoc } from "firebase/firestore";
 import { useMutation, useQuery } from "react-query";
 import { Questionnaire, questionnaireSchema } from "../schemas";
 import { QuestionnaireForm } from "../components/QuestionnaireForm";

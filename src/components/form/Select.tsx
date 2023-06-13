@@ -24,7 +24,7 @@ export const Select = ({ label, options, ...selectProps }: SelectProps) => {
     <div className="w-full">
       <label
         htmlFor={selectProps.id}
-        className="block text-sm font-medium leading-6 text-gray-900"
+        className="block text-lg font-bold leading-6 text-gray-900"
       >
         {label}
       </label>

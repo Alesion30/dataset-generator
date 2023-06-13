@@ -1,16 +1,11 @@
 import { FilledButton, TextButton } from "@/components/button";
 import { Input, Textarea } from "@/components/form";
-import { db } from "@/lib/firebase";
 import { useRouter } from "next/router";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { MdArrowBack } from "react-icons/md";
-import { useMutation } from "react-query";
-import { addDoc, collection } from "firebase/firestore";
-
-type Questionnaire = {
-  name: string;
-  content: string;
-};
+import { Questionnaire } from "../schemas";
+import { CiCircleRemove } from "react-icons/ci";
+import { BsPlusCircleFill } from "react-icons/bs";
 
 type QuestionnaireFormProps = {
   isUpdate?: boolean;
@@ -32,7 +27,12 @@ export const QuestionnaireForm = ({
     control,
     formState: { errors },
   } = useForm<Questionnaire>({
-    defaultValues: defaultValue ?? { name: "", content: "" },
+    defaultValues: defaultValue ?? { name: "", contents: [] },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    name: "contents" as never,
+    control,
   });
 
   const onSubmit = handleSubmit(_onSubmit);
@@ -68,19 +68,45 @@ export const QuestionnaireForm = ({
               )}
             />
 
-            <Controller
-              name="content"
-              control={control}
-              render={({ field }) => (
-                <Textarea
-                  label="アンケート内容"
-                  placeholder="複数ある場合は, カンマ区切り（,）で入力してください"
-                  id="content"
-                  rows={10}
-                  {...field}
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <label className="block text-lg font-bold leading-6 text-gray-900">
+                  アンケート内容
+                </label>
+                <button
+                  type="button"
+                  onClick={() => append("")}
+                  className="text-green-500 hover:text-green-600"
+                >
+                  <BsPlusCircleFill size={24} />
+                </button>
+              </div>
+              {fields.map((field, index) => (
+                <Controller
+                  key={field.id}
+                  name={`contents.${index}`}
+                  control={control}
+                  render={({ field }) => (
+                    <div className="flex items-center space-x-2">
+                      <button
+                        type="button"
+                        onClick={() => remove(index)}
+                        className="text-red-300 hover:text-red-500"
+                      >
+                        <CiCircleRemove size={24} />
+                      </button>
+                      <div className="w-full">
+                        <Textarea
+                          label={""}
+                          placeholder="他人に自己紹介するのが苦手だと感じる。"
+                          {...field}
+                        />
+                      </div>
+                    </div>
+                  )}
                 />
-              )}
-            />
+              ))}
+            </div>
           </div>
         </div>
       </div>

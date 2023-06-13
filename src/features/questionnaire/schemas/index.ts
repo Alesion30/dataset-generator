@@ -2,10 +2,10 @@ import { z } from "zod";
 
 export type Questionnaire = {
   name: string;
-  content: string;
+  contents: string[];
 };
 
 export const questionnaireSchema = z.object({
   name: z.string(),
-  content: z.string(),
+  contents: z.array(z.string()),
 });
