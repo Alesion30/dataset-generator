@@ -29,7 +29,7 @@ export const CheckboxGroup = ({
         {label}
       </legend>
       {helpText && (
-        <p className="mt-1 text-sm leading-6 text-gray-600">{helpText}</p>
+        <p className="mt-1 text-lg leading-6 text-gray-600">{helpText}</p>
       )}
       <div className="mt-6 flex space-x-6">
         {options.map((option) => {

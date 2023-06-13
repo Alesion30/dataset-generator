@@ -1,18 +1,20 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
 type InputProps = {
-  label: string;
+  label?: string;
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
 export const Input = ({ label, ...inputProps }: InputProps) => {
   return (
-    <div className="sm:col-span-4">
-      <label
-        htmlFor={inputProps.id}
-        className="block text-sm font-bold leading-6 text-gray-900"
-      >
-        {label}
-      </label>
+    <div>
+      {label && (
+        <label
+          htmlFor={inputProps.id}
+          className="block text-lg font-bold leading-6 text-gray-900"
+        >
+          {label}
+        </label>
+      )}
       <div className="mt-2">
         <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md">
           <input
