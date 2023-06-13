@@ -1,8 +1,11 @@
 import { FilledButton, TextButton } from "@/components/button";
 import { Input, RadioGroup, Textarea } from "@/components/form";
+import { db } from "@/lib/firebase";
+import { addDoc, collection } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
 import { MdArrowBack } from "react-icons/md";
+import { useMutation } from "react-query";
 
 type FormData = {
   name: string;
@@ -21,8 +24,14 @@ export const RegisterPersonPage = () => {
     defaultValues: { name: "", sex: 0, personality: "" },
   });
 
+  const mutation = useMutation({
+    mutationFn: async (data: FormData) => {
+      await addDoc(collection(db, "people"), data);
+    },
+  });
+
   const onSubmit = handleSubmit((data) => {
-    alert(JSON.stringify(data));
+    mutation.mutate(data);
   });
 
   return (
@@ -89,7 +98,9 @@ export const RegisterPersonPage = () => {
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <TextButton type="button">キャンセル</TextButton>
-        <FilledButton type="submit">登録する</FilledButton>
+        <FilledButton type="submit" disabled={mutation.isLoading}>
+          登録する
+        </FilledButton>
       </div>
     </form>
   );
