@@ -20,6 +20,7 @@ export const UpdatePersonPage = ({ id }: UpdatePersonPageProps) => {
   const mutation = useMutation({
     mutationFn: async (data: Person) => personApi.update(id, data),
     onSuccess: () => {
+      queryClient.invalidateQueries(personQueries.fetchAll().queryKey);
       queryClient.invalidateQueries(personQueries.fetchById(id).queryKey);
       router.push(pagePaths.person.$url());
     },
@@ -27,6 +28,23 @@ export const UpdatePersonPage = ({ id }: UpdatePersonPageProps) => {
 
   const onSubmit = (data: Person) => {
     const processing = mutation.mutateAsync(data);
+    toast.promise(processing, {
+      loading: "Waiting...",
+      success: () => "Successfully",
+      error: (err) => `This just happened: ${err.toString()}`,
+    });
+  };
+
+  const deleteMutation = useMutation({
+    mutationFn: async () => personApi.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(personQueries.fetchAll().queryKey);
+      router.push(pagePaths.questionnaires.$url());
+    },
+  });
+
+  const onDelete = () => {
+    const processing = deleteMutation.mutateAsync();
     toast.promise(processing, {
       loading: "Waiting...",
       success: () => "Successfully",
@@ -43,6 +61,7 @@ export const UpdatePersonPage = ({ id }: UpdatePersonPageProps) => {
       isUpdate={true}
       defaultValue={data}
       onSubmit={onSubmit}
+      onDelete={onDelete}
       disabled={mutation.isLoading}
     />
   );
