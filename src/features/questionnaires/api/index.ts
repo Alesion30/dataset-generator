@@ -2,6 +2,7 @@ import { db } from "@/lib/firebase";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -38,5 +39,9 @@ export const questionnaireApi = {
       id,
       ...questionnaire,
     };
+  },
+  delete: async (id: string) => {
+    await deleteDoc(doc(questionnairesCollection, id));
+    return;
   },
 };

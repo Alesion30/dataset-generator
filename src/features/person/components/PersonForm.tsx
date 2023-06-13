@@ -4,12 +4,17 @@ import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
 import { MdArrowBack } from "react-icons/md";
 import { Person } from "../schemas";
+import Link from "next/link";
+import { pagePaths } from "@/constants/pagePaths";
+import { ConfirmModal } from "@/components/modal";
+import { useState } from "react";
 
 type PersonFormProps = {
   isUpdate?: boolean;
   defaultValue?: Person;
   disabled?: boolean;
   onSubmit: (data: Person) => void;
+  onDelete?: () => void;
 };
 
 export const PersonForm = ({
@@ -17,8 +22,12 @@ export const PersonForm = ({
   defaultValue,
   disabled,
   onSubmit: _onSubmit,
+  onDelete,
 }: PersonFormProps) => {
   const router = useRouter();
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const onOpenConfirmModal = () => setIsConfirmModalOpen(true);
+  const onCloseConfirmModal = () => setIsConfirmModalOpen(false);
 
   const {
     handleSubmit,
@@ -32,13 +41,11 @@ export const PersonForm = ({
 
   return (
     <form onSubmit={onSubmit} className="container mx-auto my-10 px-4">
-      <button
-        type="button"
-        onClick={() => router.back()}
-        className="hover:bg-gray-100 rounded-md p-2"
-      >
-        <MdArrowBack size={24} />
-      </button>
+      <Link href={pagePaths.person.$url()}>
+        <div className="hover:bg-gray-100 rounded-md p-2 inline-block">
+          <MdArrowBack size={24} />
+        </div>
+      </Link>
       <div className="px-4 my-10 space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-2xl font-semibold leading-7 text-gray-900">
@@ -92,8 +99,31 @@ export const PersonForm = ({
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-end gap-x-6">
-        <TextButton type="button">キャンセル</TextButton>
+      <ConfirmModal
+        title="本当にこの人物を削除してもよろしいですか？"
+        description="※この操作は取り消すことができません"
+        isOpen={isConfirmModalOpen}
+        onClose={onCloseConfirmModal}
+        submitButton={
+          <FilledButton type="button" customType="error" onClick={onDelete!}>
+            削除する
+          </FilledButton>
+        }
+      />
+
+      <div className="mt-6 flex items-center justify-end gap-x-4">
+        <TextButton type="button" onClick={() => router.back()}>
+          キャンセル
+        </TextButton>
+        {onDelete && (
+          <FilledButton
+            customType="error"
+            type="button"
+            onClick={onOpenConfirmModal}
+          >
+            削除
+          </FilledButton>
+        )}
         <FilledButton type="submit" disabled={disabled}>
           {isUpdate ? "更新する" : "登録する"}
         </FilledButton>

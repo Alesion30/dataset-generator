@@ -6,6 +6,8 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
 import { gptApi } from "../api";
+import toast from "react-hot-toast";
+import { pagePaths } from "@/constants/pagePaths";
 
 export const HomePage = () => {
   const [personId, setPersonId] = useState<string>();
@@ -41,10 +43,16 @@ export const HomePage = () => {
       const result = await gptApi.likert(person, questionnaire);
       alert(JSON.stringify(result));
     },
-    onError: (error) => alert(error),
   });
 
-  const onSubmit = () => mutation.mutate();
+  const onSubmit = () => {
+    const processing = mutation.mutateAsync();
+    toast.promise(processing, {
+      loading: "Waiting...",
+      success: () => "Successfully",
+      error: (err) => `This just happened: ${err.toString()}`,
+    });
+  };
 
   return (
     <div className="flex flex-col w-screen h-screen justify-center items-center space-y-10 p-4">
@@ -69,7 +77,10 @@ export const HomePage = () => {
               onChange={(v) => setPersonId(v.target.value)}
             />
           )}
-          <Link href="/person" className="text-xs hover:underline">
+          <Link
+            href={pagePaths.person.$url()}
+            className="text-xs hover:underline"
+          >
             人物を管理する
           </Link>
         </div>
@@ -85,7 +96,10 @@ export const HomePage = () => {
               onChange={(v) => setQuestionnaireId(v.target.value)}
             />
           )}
-          <Link href="/questionnaires" className="text-xs hover:underline">
+          <Link
+            href={pagePaths.questionnaires.$url()}
+            className="text-xs hover:underline"
+          >
             アンケートを管理する
           </Link>
         </div>

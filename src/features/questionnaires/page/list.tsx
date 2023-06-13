@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { BiInfoCircle } from "react-icons/bi";
 import { MdArrowBack } from "react-icons/md";
 import { questionnaireQueries } from "../queries";
+import { pagePaths } from "@/constants/pagePaths";
 
 export const QuestionnaireListPage = () => {
   const router = useRouter();
@@ -13,19 +14,17 @@ export const QuestionnaireListPage = () => {
 
   return (
     <div className="container mx-auto my-10 px-4">
-      <button
-        type="button"
-        onClick={() => router.back()}
-        className="hover:bg-gray-100 rounded-md p-2"
-      >
-        <MdArrowBack size={24} />
-      </button>
+      <Link href={pagePaths.$url()}>
+        <div className="hover:bg-gray-100 rounded-md p-2 inline-block">
+          <MdArrowBack size={24} />
+        </div>
+      </Link>
       <div className="px-4 my-10 space-y-10">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-semibold leading-7 text-gray-900">
             アンケートプリセット一覧
           </h2>
-          <Link href="/questionnaires/register">
+          <Link href={pagePaths.questionnaires.register.$url()}>
             <FilledButton>新規作成</FilledButton>
           </Link>
         </div>
@@ -43,7 +42,7 @@ export const QuestionnaireListPage = () => {
                     </span>
                   </div>
                   <Link
-                    href={`/questionnaires/${questionnaire.id}`}
+                    href={pagePaths.questionnaires._id(questionnaire.id).$url()}
                     className="p-2 hover:bg-gray-200 rounded-md"
                   >
                     <BiInfoCircle size={24} />
