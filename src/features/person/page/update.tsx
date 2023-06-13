@@ -1,5 +1,5 @@
 import { db } from "@/lib/firebase";
-import { collection, getDoc, doc, setDoc } from "firebase/firestore";
+import { collection, getDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useMutation, useQuery } from "react-query";
 import { Person, personSchema } from "../schemas";
 import { PersonForm } from "../components/PersonForm";
@@ -20,7 +20,7 @@ export const UpdatePersonPage = ({ id }: UpdatePersonPageProps) => {
 
   const mutation = useMutation({
     mutationFn: async (data: Person) => {
-      await setDoc(doc(collection(db, "people"), id), data);
+      await updateDoc(doc(collection(db, "people"), id), data);
     },
   });
 

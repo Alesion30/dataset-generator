@@ -22,7 +22,9 @@ export const HomePage = () => {
       }));
     },
     onSuccess: (data) => {
-      setPersonId(data[0].id);
+      if (data.length > 0) {
+        setPersonId(data[0].id);
+      }
     },
   });
   const people = peopleQuery.data ?? [];
@@ -37,7 +39,9 @@ export const HomePage = () => {
       }));
     },
     onSuccess: (data) => {
-      setQuestionnaireId(data[0].id);
+      if (data.length > 0) {
+        setQuestionnaireId(data[0].id);
+      }
     },
   });
   const questionnaires = questionnairesQuery.data ?? [];

@@ -35,15 +35,7 @@ export const QuestionnaireForm = ({
     defaultValues: defaultValue ?? { name: "", content: "" },
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: Questionnaire) => {
-      await addDoc(collection(db, "questionnaires"), data);
-    },
-  });
-
-  const onSubmit = handleSubmit((data) => {
-    mutation.mutate(data);
-  });
+  const onSubmit = handleSubmit(_onSubmit);
 
   return (
     <form onSubmit={onSubmit} className="container mx-auto my-10 px-4">

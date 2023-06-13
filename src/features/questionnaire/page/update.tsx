@@ -1,5 +1,5 @@
 import { db } from "@/lib/firebase";
-import { collection, getDoc, doc, setDoc } from "firebase/firestore";
+import { collection, getDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useMutation, useQuery } from "react-query";
 import { Questionnaire, questionnaireSchema } from "../schemas";
 import { QuestionnaireForm } from "../components/QuestionnaireForm";
@@ -22,7 +22,7 @@ export const UpdateQuestionnairePage = ({
 
   const mutation = useMutation({
     mutationFn: async (data: Questionnaire) => {
-      await setDoc(doc(collection(db, "questionnaires"), id), data);
+      await updateDoc(doc(collection(db, "questionnaires"), id), data);
     },
   });
 
