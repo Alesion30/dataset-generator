@@ -19,14 +19,14 @@ export const UpdatePersonPage = ({ id }: UpdatePersonPageProps) => {
       const person = personSchema.parse(snap.data());
       return person;
     },
-    onSuccess: () => {
-      router.push("/person");
-    },
   });
 
   const mutation = useMutation({
     mutationFn: async (data: Person) => {
       await updateDoc(doc(collection(db, "people"), id), data);
+    },
+    onSuccess: () => {
+      router.push("/person");
     },
   });
 
