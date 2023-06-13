@@ -8,8 +8,15 @@ import { useState } from "react";
 import { gptApi } from "../api";
 import toast from "react-hot-toast";
 import { pagePaths } from "@/constants/pagePaths";
+import { ResultModal } from "../components/ResultModal";
+import { LikertResponse } from "@/api/questionnaire";
 
 export const HomePage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const onOpenModal = () => setIsModalOpen(true);
+  const onCloseModal = () => setIsModalOpen(false);
+  const [result, setResult] = useState<LikertResponse>();
+
   const [personId, setPersonId] = useState<string>();
   const [questionnaireId, setQuestionnaireId] = useState<string>();
 
@@ -41,7 +48,8 @@ export const HomePage = () => {
       )!;
 
       const result = await gptApi.likert(person, questionnaire);
-      alert(JSON.stringify(result.data));
+      setResult(result);
+      onOpenModal();
     },
   });
 
@@ -104,6 +112,13 @@ export const HomePage = () => {
           </Link>
         </div>
       </div>
+
+      <ResultModal
+        isOpen={isModalOpen}
+        onClose={onCloseModal}
+        data={result?.data ?? []}
+      />
+
       <div>
         <FilledButton disabled={mutation.isLoading} onClick={onSubmit}>
           作成する

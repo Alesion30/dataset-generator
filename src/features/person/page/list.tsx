@@ -1,6 +1,5 @@
 import { FilledButton } from "@/components/button";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { BiInfoCircle } from "react-icons/bi";
 import { MdArrowBack } from "react-icons/md";
 import { personQueries } from "../queries";
@@ -8,8 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { pagePaths } from "@/constants/pagePaths";
 
 export const PersonListPage = () => {
-  const router = useRouter();
-
   const { data } = useQuery(personQueries.fetchAll());
 
   return (
