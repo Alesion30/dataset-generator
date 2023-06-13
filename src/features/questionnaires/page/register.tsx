@@ -1,18 +1,18 @@
-import { db } from "@/lib/firebase";
 import { useRouter } from "next/router";
-import { useMutation } from "react-query";
-import { addDoc, collection } from "firebase/firestore";
 import { QuestionnaireForm } from "../components/QuestionnaireForm";
 import { Questionnaire } from "../schemas";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { questionnaireApi } from "../api";
+import { questionnaireQueries } from "../queries";
 
 export const RegisterQuestionnairePage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async (data: Questionnaire) => {
-      await addDoc(collection(db, "questionnaires"), data);
-    },
+    mutationFn: async (data: Questionnaire) => questionnaireApi.create(data),
     onSuccess: () => {
+      queryClient.invalidateQueries(questionnaireQueries.fetchAll().queryKey);
       router.push("/questionnaires");
     },
   });

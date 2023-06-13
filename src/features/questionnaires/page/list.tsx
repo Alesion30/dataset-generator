@@ -1,25 +1,15 @@
 import { FilledButton } from "@/components/button";
-import { db } from "@/lib/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { BiInfoCircle } from "react-icons/bi";
 import { MdArrowBack } from "react-icons/md";
-import { useQuery } from "react-query";
+import { questionnaireQueries } from "../queries";
 
 export const QuestionnaireListPage = () => {
   const router = useRouter();
 
-  const { data } = useQuery({
-    queryKey: ["questionnaire"],
-    queryFn: async () => {
-      const snap = await getDocs(collection(db, "questionnaires"));
-      return snap.docs.map((doc) => ({
-        id: doc.id,
-        name: doc.data().name,
-      }));
-    },
-  });
+  const { data } = useQuery(questionnaireQueries.fetchAll());
 
   return (
     <div className="container mx-auto my-10 px-4">
