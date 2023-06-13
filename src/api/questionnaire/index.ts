@@ -8,39 +8,38 @@ import { questionnairePrompt } from "./prompt";
 import { csv2object } from "./utils";
 
 const questionnaireRoute = new Hono();
-　
 const personalitySchema = z.object({
-    openness: z.number()
-})
+  openness: z.number(),
+});
 
 const userSchema = z.object({
-    age: z.number(),
-    height: z.number(),
-    gender: z.string(),
-    occupation: z.string(),
-    education: z.string(),
-    personality: personalitySchema
-})
+  age: z.number(),
+  height: z.number(),
+  gender: z.string(),
+  occupation: z.string(),
+  education: z.string(),
+  personality: personalitySchema,
+});
 
 const questionnaireQuerySchema = z.object({
-    parameters: userSchema,
-    questions: z.array(z.string()),
+  parameters: userSchema,
+  questions: z.array(z.string()),
 });
 
 const optionQuestionSchema = z.object({
-    question: z.string(),
-    options: z.array(z.string())
-})
+  question: z.string(),
+  options: z.array(z.string()),
+});
 
 const optionQuestionQuerySchema = z.object({
-    parameters: userSchema,
-    questions: z.array(optionQuestionSchema)
-})
+  parameters: userSchema,
+  questions: z.array(optionQuestionSchema),
+});
 
 const likertQuestionQuerySchema = z.object({
   personality: z.string(),
   questions: z.array(z.string()),
-})
+});
 
 questionnaireRoute.post(
   "/",
@@ -52,7 +51,7 @@ questionnaireRoute.post(
   }),
   async (c) => {
     const json = c.req.valid("json");
-    const message = JSON.stringify(json)
+    const message = JSON.stringify(json);
     const res = await chat.call([
       new SystemChatMessage(questionnairePrompt.short),
       new HumanChatMessage(message),
@@ -65,48 +64,48 @@ questionnaireRoute.post(
 );
 
 questionnaireRoute.post(
-    "/option",
-    zValidator("json", optionQuestionQuerySchema, (result) => {
-        if (!result.success) {
-            const errorMessage = result.error.issues.map((i) => i.message).join("\n");
-            throw new HTTPException(400, {message: errorMessage});
-        }
-    }),
-    async (c) => {
-        const json = c.req.valid("json");
-        const message = JSON.stringify(json)
-        const res = await chat.call([
-            new SystemChatMessage(questionnairePrompt.option),
-            new HumanChatMessage(message)
-        ]);
-
-        return c.json({
-            message: res.text
-        })
+  "/option",
+  zValidator("json", optionQuestionQuerySchema, (result) => {
+    if (!result.success) {
+      const errorMessage = result.error.issues.map((i) => i.message).join("\n");
+      throw new HTTPException(400, { message: errorMessage });
     }
-)
+  }),
+  async (c) => {
+    const json = c.req.valid("json");
+    const message = JSON.stringify(json);
+    const res = await chat.call([
+      new SystemChatMessage(questionnairePrompt.option),
+      new HumanChatMessage(message),
+    ]);
+
+    return c.json({
+      message: res.text,
+    });
+  }
+);
 
 questionnaireRoute.post(
   "/likert",
   zValidator("json", likertQuestionQuerySchema, (result) => {
     if (!result.success) {
       const errorMessage = result.error.issues.map((i) => i.message).join("\n");
-      throw new HTTPException(400, {message: errorMessage});
+      throw new HTTPException(400, { message: errorMessage });
     }
   }),
   async (c) => {
     const json = c.req.valid("json");
-    const message = JSON.stringify(json)
+    const message = JSON.stringify(json);
     const res = await chat.call([
       new SystemChatMessage(questionnairePrompt.likert),
-      new HumanChatMessage(message)
-    ])
+      new HumanChatMessage(message),
+    ]);
 
-    const result = csv2object(res.text)
+    const result = csv2object(res.text);
     return c.json({
-      message: result
-    })
+      message: result,
+    });
   }
-)
+);
 
 export default questionnaireRoute;

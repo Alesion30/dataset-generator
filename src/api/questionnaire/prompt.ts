@@ -46,7 +46,7 @@ $[質問n],$[回答n]
 question,answer
 好きな食べ物は？,リンゴ
 先週の休日は何をした？,キャンプ
-`
+`;
 
 const questionnairePromptShort = `
 # 命令
@@ -84,7 +84,7 @@ $[質問n],$[回答n]
 question,answer
 好きな食べ物は？,リンゴ
 先週の休日は何をした？,キャンプ
-`
+`;
 
 const optionPromptShort = `
 # 命令
@@ -130,7 +130,7 @@ $[質問n],$[回答n]
 question,answer
 好きな食べ物は？,2
 先週の休日は何をした？,3
-`
+`;
 
 const likertPromptShort = `
 # 命令
@@ -159,11 +159,11 @@ $[質問n],$[回答n]
 question,answer
 他人に自己紹介するのが苦手だと感じる。,1
 自分の考えに夢中になって、周囲のことを無視したり忘れることがよくある。,7
-`
+`;
 
 export const questionnairePrompt = {
   short: questionnairePromptShort,
   long: questionnairePromptLong,
   option: optionPromptShort,
-  likert: likertPromptShort
-}
+  likert: likertPromptShort,
+};

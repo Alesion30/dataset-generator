@@ -6,8 +6,8 @@ import questionnaireRoute from "./questionnaire";
 
 const app = new Hono().basePath("/api");
 
-app.route('/hello', helloRoute);
-app.route('/example', exampleRoute);
-app.route('/questionnaire', questionnaireRoute)
+app.route("/hello", helloRoute);
+app.route("/example", exampleRoute);
+app.route("/questionnaire", questionnaireRoute);
 
 export default handle(app);
