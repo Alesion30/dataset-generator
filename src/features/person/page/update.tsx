@@ -3,18 +3,24 @@ import { collection, getDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useMutation, useQuery } from "react-query";
 import { Person, personSchema } from "../schemas";
 import { PersonForm } from "../components/PersonForm";
+import { useRouter } from "next/router";
 
 type UpdatePersonPageProps = {
   id: string;
 };
 
 export const UpdatePersonPage = ({ id }: UpdatePersonPageProps) => {
+  const router = useRouter();
+
   const { data, isLoading } = useQuery({
     queryKey: ["person", id],
     queryFn: async () => {
       const snap = await getDoc(doc(collection(db, "people"), id));
       const person = personSchema.parse(snap.data());
       return person;
+    },
+    onSuccess: () => {
+      router.push("/person");
     },
   });
 

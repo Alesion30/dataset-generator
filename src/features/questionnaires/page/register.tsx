@@ -12,6 +12,9 @@ export const RegisterQuestionnairePage = () => {
     mutationFn: async (data: Questionnaire) => {
       await addDoc(collection(db, "questionnaires"), data);
     },
+    onSuccess: () => {
+      router.push("/questionnaires");
+    },
   });
 
   const onSubmit = (data: Questionnaire) => {

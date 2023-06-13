@@ -3,11 +3,17 @@ import { addDoc, collection } from "firebase/firestore";
 import { useMutation } from "react-query";
 import { Person } from "../schemas";
 import { PersonForm } from "../components/PersonForm";
+import { useRouter } from "next/router";
 
 export const RegisterPersonPage = () => {
+  const router = useRouter();
+
   const mutation = useMutation({
     mutationFn: async (data: Person) => {
       await addDoc(collection(db, "people"), data);
+    },
+    onSuccess: () => {
+      router.push("/person");
     },
   });
 

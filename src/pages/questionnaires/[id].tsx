@@ -1,4 +1,4 @@
-import { UpdateQuestionnairePage } from "@/features/questionnaire/page/update";
+import { UpdateQuestionnairePage } from "@/features/questionnaires/page/update";
 import { useRouter } from "next/router";
 
 const Page = () => {

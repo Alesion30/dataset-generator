@@ -1,7 +1,7 @@
 import { FilledButton } from "@/components/button";
 import { Select } from "@/components/form";
 import { personSchema } from "@/features/person/schemas";
-import { questionnaireSchema } from "@/features/questionnaire/schemas";
+import { questionnaireSchema } from "@/features/questionnaires/schemas";
 import { db } from "@/lib/firebase";
 import { getDocs, collection } from "firebase/firestore";
 import Link from "next/link";
@@ -94,7 +94,7 @@ export const HomePage = () => {
               onChange={(v) => setQuestionnaireId(v.target.value)}
             />
           )}
-          <Link href="/questionnaire" className="text-xs hover:underline">
+          <Link href="/questionnaires" className="text-xs hover:underline">
             アンケートを管理する
           </Link>
         </div>

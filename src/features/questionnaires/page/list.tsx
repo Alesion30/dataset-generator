@@ -35,7 +35,7 @@ export const QuestionnaireListPage = () => {
           <h2 className="text-2xl font-semibold leading-7 text-gray-900">
             アンケートプリセット一覧
           </h2>
-          <Link href="/questionnaire/register">
+          <Link href="/questionnaires/register">
             <FilledButton>新規作成</FilledButton>
           </Link>
         </div>
@@ -53,7 +53,7 @@ export const QuestionnaireListPage = () => {
                     </span>
                   </div>
                   <Link
-                    href={`/questionnaire/${questionnaire.id}`}
+                    href={`/questionnaires/${questionnaire.id}`}
                     className="p-2 hover:bg-gray-200 rounded-md"
                   >
                     <BiInfoCircle size={24} />
