@@ -6,7 +6,7 @@ import { db } from "@/lib/firebase";
 import { getDocs, collection } from "firebase/firestore";
 import Link from "next/link";
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 export const HomePage = () => {
   const [personId, setPersonId] = useState<string>();
@@ -46,17 +46,35 @@ export const HomePage = () => {
   });
   const questionnaires = questionnairesQuery.data ?? [];
 
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const person = people.find((v) => v.id === personId)!;
+      const questionnaire = questionnaires.find(
+        (v) => v.id === questionnaireId
+      )!;
+
+      const res = await fetch("/api/questionnaire/likert", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          personality: person.personality,
+          questions: questionnaire.contents,
+        }),
+      });
+      const data = await res.json();
+      alert(JSON.stringify(data));
+    },
+    onError: (error) => alert(error),
+  });
+
   const onSubmit = () => {
-    alert(
-      JSON.stringify({
-        personId,
-        questionnaireId,
-      })
-    );
+    mutation.mutate();
   };
 
   return (
-    <div className="container flex flex-col h-screen justify-center items-center space-y-10">
+    <div className="flex flex-col w-screen h-screen justify-center items-center space-y-10 p-4">
       <div className="text-center">
         <h2 className="text-2xl font-semibold leading-7 text-gray-900">
           アンケートの回答を作成
@@ -100,7 +118,9 @@ export const HomePage = () => {
         </div>
       </div>
       <div>
-        <FilledButton onClick={onSubmit}>作成する</FilledButton>
+        <FilledButton disabled={mutation.isLoading} onClick={onSubmit}>
+          作成する
+        </FilledButton>
       </div>
     </div>
   );
