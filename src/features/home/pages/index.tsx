@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { gptApi } from "../api";
 import toast from "react-hot-toast";
+import { pagePaths } from "@/constants/pagePaths";
 
 export const HomePage = () => {
   const [personId, setPersonId] = useState<string>();
@@ -76,7 +77,10 @@ export const HomePage = () => {
               onChange={(v) => setPersonId(v.target.value)}
             />
           )}
-          <Link href="/person" className="text-xs hover:underline">
+          <Link
+            href={pagePaths.person.$url()}
+            className="text-xs hover:underline"
+          >
             人物を管理する
           </Link>
         </div>
@@ -92,7 +96,10 @@ export const HomePage = () => {
               onChange={(v) => setQuestionnaireId(v.target.value)}
             />
           )}
-          <Link href="/questionnaires" className="text-xs hover:underline">
+          <Link
+            href={pagePaths.questionnaires.$url()}
+            className="text-xs hover:underline"
+          >
             アンケートを管理する
           </Link>
         </div>

@@ -6,6 +6,8 @@ import { MdArrowBack } from "react-icons/md";
 import { Questionnaire } from "../schemas";
 import { CiCircleRemove } from "react-icons/ci";
 import { BsPlusCircleFill } from "react-icons/bs";
+import Link from "next/link";
+import { pagePaths } from "@/constants/pagePaths";
 
 type QuestionnaireFormProps = {
   isUpdate?: boolean;
@@ -39,13 +41,11 @@ export const QuestionnaireForm = ({
 
   return (
     <form onSubmit={onSubmit} className="container mx-auto my-10 px-4">
-      <button
-        type="button"
-        onClick={() => router.back()}
-        className="hover:bg-gray-100 rounded-md p-2"
-      >
-        <MdArrowBack size={24} />
-      </button>
+      <Link href={pagePaths.questionnaires.$url()}>
+        <div className="hover:bg-gray-100 rounded-md p-2 inline-block">
+          <MdArrowBack size={24} />
+        </div>
+      </Link>
       <div className="px-4 my-10 space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-2xl font-semibold leading-7 text-gray-900">
@@ -112,7 +112,9 @@ export const QuestionnaireForm = ({
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <TextButton type="button">キャンセル</TextButton>
+        <TextButton type="button" onClick={() => router.back()}>
+          キャンセル
+        </TextButton>
         <FilledButton type="submit" disabled={disabled}>
           {isUpdate ? "更新する" : "登録する"}
         </FilledButton>

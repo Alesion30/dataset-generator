@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { questionnaireQueries } from "../queries";
 import { questionnaireApi } from "../api";
 import { toast } from "react-hot-toast";
+import { pagePaths } from "@/constants/pagePaths";
 
 type UpdateQuestionnairePageProps = {
   id: string;
@@ -25,7 +26,7 @@ export const UpdateQuestionnairePage = ({
       queryClient.invalidateQueries(
         questionnaireQueries.fetchById(id).queryKey
       );
-      router.push("/questionnaires");
+      router.push(pagePaths.questionnaires.$url());
     },
   });
 

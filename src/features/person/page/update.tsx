@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { personQueries } from "../queries";
 import { personApi } from "../api";
 import toast from "react-hot-toast";
+import { pagePaths } from "@/constants/pagePaths";
 
 type UpdatePersonPageProps = {
   id: string;
@@ -20,7 +21,7 @@ export const UpdatePersonPage = ({ id }: UpdatePersonPageProps) => {
     mutationFn: async (data: Person) => personApi.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries(personQueries.fetchById(id).queryKey);
-      router.push("/person");
+      router.push(pagePaths.person.$url());
     },
   });
 

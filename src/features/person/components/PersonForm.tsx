@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
 import { MdArrowBack } from "react-icons/md";
 import { Person } from "../schemas";
+import Link from "next/link";
+import { pagePaths } from "@/constants/pagePaths";
 
 type PersonFormProps = {
   isUpdate?: boolean;
@@ -32,13 +34,11 @@ export const PersonForm = ({
 
   return (
     <form onSubmit={onSubmit} className="container mx-auto my-10 px-4">
-      <button
-        type="button"
-        onClick={() => router.back()}
-        className="hover:bg-gray-100 rounded-md p-2"
-      >
-        <MdArrowBack size={24} />
-      </button>
+      <Link href={pagePaths.person.$url()}>
+        <div className="hover:bg-gray-100 rounded-md p-2 inline-block">
+          <MdArrowBack size={24} />
+        </div>
+      </Link>
       <div className="px-4 my-10 space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-2xl font-semibold leading-7 text-gray-900">
@@ -93,7 +93,9 @@ export const PersonForm = ({
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <TextButton type="button">キャンセル</TextButton>
+        <TextButton type="button" onClick={() => router.back()}>
+          キャンセル
+        </TextButton>
         <FilledButton type="submit" disabled={disabled}>
           {isUpdate ? "更新する" : "登録する"}
         </FilledButton>

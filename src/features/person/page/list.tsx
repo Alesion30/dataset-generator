@@ -5,6 +5,7 @@ import { BiInfoCircle } from "react-icons/bi";
 import { MdArrowBack } from "react-icons/md";
 import { personQueries } from "../queries";
 import { useQuery } from "@tanstack/react-query";
+import { pagePaths } from "@/constants/pagePaths";
 
 export const PersonListPage = () => {
   const router = useRouter();
@@ -13,19 +14,17 @@ export const PersonListPage = () => {
 
   return (
     <div className="container mx-auto my-10 px-4">
-      <button
-        type="button"
-        onClick={() => router.back()}
-        className="hover:bg-gray-100 rounded-md p-2"
-      >
-        <MdArrowBack size={24} />
-      </button>
+      <Link href={pagePaths.$url()}>
+        <div className="hover:bg-gray-100 rounded-md p-2 inline-block">
+          <MdArrowBack size={24} />
+        </div>
+      </Link>
       <div className="px-4 my-10 space-y-10">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-semibold leading-7 text-gray-900">
             人物プリセット一覧
           </h2>
-          <Link href="/person/register">
+          <Link href={pagePaths.person.register.$url()}>
             <FilledButton>新規作成</FilledButton>
           </Link>
         </div>
@@ -43,7 +42,7 @@ export const PersonListPage = () => {
                     </span>
                   </div>
                   <Link
-                    href={`/person/${person.id}`}
+                    href={pagePaths.person._id(person.id).$url()}
                     className="p-2 hover:bg-gray-200 rounded-md"
                   >
                     <BiInfoCircle size={24} />

@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { questionnaireApi } from "../api";
 import { questionnaireQueries } from "../queries";
 import toast from "react-hot-toast";
+import { pagePaths } from "@/constants/pagePaths";
 
 export const RegisterQuestionnairePage = () => {
   const router = useRouter();
@@ -14,7 +15,7 @@ export const RegisterQuestionnairePage = () => {
     mutationFn: async (data: Questionnaire) => questionnaireApi.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries(questionnaireQueries.fetchAll().queryKey);
-      router.push("/questionnaires");
+      router.push(pagePaths.questionnaires.$url());
     },
   });
 
