@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { personQueries } from "../queries";
 import { personApi } from "../api";
+import toast from "react-hot-toast";
 
 type UpdatePersonPageProps = {
   id: string;
@@ -24,7 +25,12 @@ export const UpdatePersonPage = ({ id }: UpdatePersonPageProps) => {
   });
 
   const onSubmit = (data: Person) => {
-    mutation.mutate(data);
+    const processing = mutation.mutateAsync(data);
+    toast.promise(processing, {
+      loading: "Waiting...",
+      success: () => "Successfully",
+      error: (err) => `This just happened: ${err.toString()}`,
+    });
   };
 
   if (isLoading) {
