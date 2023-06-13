@@ -1,9 +1,9 @@
-import { db } from "@/lib/firebase";
-import { collection, getDoc, doc, setDoc, updateDoc } from "firebase/firestore";
-import { useMutation, useQuery } from "react-query";
-import { Person, personSchema } from "../schemas";
+import { Person } from "../schemas";
 import { PersonForm } from "../components/PersonForm";
 import { useRouter } from "next/router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { personQueries } from "../queries";
+import { personApi } from "../api";
 
 type UpdatePersonPageProps = {
   id: string;
@@ -11,21 +11,14 @@ type UpdatePersonPageProps = {
 
 export const UpdatePersonPage = ({ id }: UpdatePersonPageProps) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["person", id],
-    queryFn: async () => {
-      const snap = await getDoc(doc(collection(db, "people"), id));
-      const person = personSchema.parse(snap.data());
-      return person;
-    },
-  });
+  const { data, isLoading } = useQuery(personQueries.fetchById(id));
 
   const mutation = useMutation({
-    mutationFn: async (data: Person) => {
-      await updateDoc(doc(collection(db, "people"), id), data);
-    },
+    mutationFn: async (data: Person) => personApi.update(id, data),
     onSuccess: () => {
+      queryClient.invalidateQueries(personQueries.fetchById(id).queryKey);
       router.push("/person");
     },
   });

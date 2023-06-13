@@ -1,26 +1,18 @@
 import { FilledButton } from "@/components/button";
 import { Select } from "@/components/form";
-import { personSchema } from "@/features/person/schemas";
-import { questionnaireSchema } from "@/features/questionnaires/schemas";
-import { db } from "@/lib/firebase";
-import { getDocs, collection } from "firebase/firestore";
+import { personQueries } from "@/features/person/queries";
+import { questionnaireQueries } from "@/features/questionnaires/queries";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { gptApi } from "../api";
 
 export const HomePage = () => {
   const [personId, setPersonId] = useState<string>();
   const [questionnaireId, setQuestionnaireId] = useState<string>();
 
   const peopleQuery = useQuery({
-    queryKey: ["person"],
-    queryFn: async () => {
-      const snap = await getDocs(collection(db, "people"));
-      return snap.docs.map((doc) => ({
-        id: doc.id,
-        ...personSchema.parse(doc.data()),
-      }));
-    },
+    ...personQueries.fetchAll(),
     onSuccess: (data) => {
       if (data.length > 0) {
         setPersonId(data[0].id);
@@ -30,14 +22,7 @@ export const HomePage = () => {
   const people = peopleQuery.data ?? [];
 
   const questionnairesQuery = useQuery({
-    queryKey: ["questionnaire"],
-    queryFn: async () => {
-      const snap = await getDocs(collection(db, "questionnaires"));
-      return snap.docs.map((doc) => ({
-        id: doc.id,
-        ...questionnaireSchema.parse(doc.data()),
-      }));
-    },
+    ...questionnaireQueries.fetchAll(),
     onSuccess: (data) => {
       if (data.length > 0) {
         setQuestionnaireId(data[0].id);
@@ -53,25 +38,13 @@ export const HomePage = () => {
         (v) => v.id === questionnaireId
       )!;
 
-      const res = await fetch("/api/questionnaire/likert", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          personality: person.personality,
-          questions: questionnaire.contents,
-        }),
-      });
-      const data = await res.json();
-      alert(JSON.stringify(data));
+      const result = await gptApi.likert(person, questionnaire);
+      alert(JSON.stringify(result));
     },
     onError: (error) => alert(error),
   });
 
-  const onSubmit = () => {
-    mutation.mutate();
-  };
+  const onSubmit = () => mutation.mutate();
 
   return (
     <div className="flex flex-col w-screen h-screen justify-center items-center space-y-10 p-4">
