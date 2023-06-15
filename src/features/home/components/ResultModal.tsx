@@ -73,8 +73,8 @@ export const ResultModal = ({ result, isOpen, onClose }: ResultModalProps) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {result.data.map((v) => (
-                          <tr>
+                        {result.data.map((v, i) => (
+                          <tr key={`result_${i}`}>
                             <td className="border border-slate-300 p-1">
                               {v.question}
                             </td>
