@@ -3,13 +3,19 @@ import { TextButton } from "@/components/button";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
+export type Result = {
+  personName: string;
+  questionnaireName: string;
+  data: LikertResponse["data"];
+};
+
 type ResultModalProps = {
   isOpen: boolean;
-  data: LikertResponse["data"];
+  result: Result | null;
   onClose: () => void;
 };
 
-export const ResultModal = ({ data, isOpen, onClose }: ResultModalProps) => {
+export const ResultModal = ({ result, isOpen, onClose }: ResultModalProps) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -44,17 +50,24 @@ export const ResultModal = ({ data, isOpen, onClose }: ResultModalProps) => {
                   AIによるアンケート回答結果
                 </Dialog.Title>
 
-                <div className="mt-4 mx-4">
-                  {data.map((v) => (
-                    <ul className="list-disc">
-                      <li>
-                        <p className="text-sm">
-                          {v.question} {v.answer}
-                        </p>
-                      </li>
-                    </ul>
-                  ))}
-                </div>
+                {result && (
+                  <div className="mt-4 mx-4">
+                    <div className="my-4 p-2 border rounded-md">
+                      <p>人物: {result.personName}</p>
+                      <p>アンケート: {result.questionnaireName}</p>
+                    </div>
+
+                    {result.data.map((v) => (
+                      <ul className="list-disc">
+                        <li>
+                          <p className="text-sm">
+                            {v.question} {v.answer}
+                          </p>
+                        </li>
+                      </ul>
+                    ))}
+                  </div>
+                )}
 
                 <div className="mt-4 flex space-x-2">
                   <TextButton type="button" onClick={onClose}>
