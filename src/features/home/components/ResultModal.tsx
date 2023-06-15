@@ -42,7 +42,7 @@ export const ResultModal = ({ result, isOpen, onClose }: ResultModalProps) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
@@ -52,20 +52,35 @@ export const ResultModal = ({ result, isOpen, onClose }: ResultModalProps) => {
 
                 {result && (
                   <div className="mt-4 mx-4">
-                    <div className="my-4 p-2 border rounded-md">
+                    <div className="my-6 p-2 border border-slate-300 rounded-md">
                       <p>人物: {result.personName}</p>
                       <p>アンケート: {result.questionnaireName}</p>
                     </div>
 
-                    {result.data.map((v) => (
-                      <ul className="list-disc">
-                        <li>
-                          <p className="text-sm">
-                            {v.question} {v.answer}
-                          </p>
-                        </li>
-                      </ul>
-                    ))}
+                    <table className="table-auto border-collapse border border-slate-300">
+                      <thead>
+                        <tr className="bg-slate-100">
+                          <th className="border border-slate-300 p-2 whitespace-nowrap">
+                            質問
+                          </th>
+                          <th className="border border-slate-300 p-2 whitespace-nowrap">
+                            回答
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {result.data.map((v) => (
+                          <tr>
+                            <td className="border border-slate-300 p-1">
+                              {v.question}
+                            </td>
+                            <td className="border border-slate-300 p-1 text-center">
+                              {v.answer}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 )}
 
