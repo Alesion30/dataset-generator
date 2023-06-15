@@ -30,7 +30,6 @@ export const parseCSV = (csvString: string): object[] => {
       // @ts-ignore
       obj[header] = value;
     }
-
     result.push(obj);
   }
 

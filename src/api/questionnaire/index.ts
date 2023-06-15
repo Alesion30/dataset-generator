@@ -105,7 +105,7 @@ questionnaireRoute.post(
       new SystemChatMessage(questionnairePrompt.likert),
       new HumanChatMessage(message),
     ]);
-
+    console.log(res)
     const result = parseCSV(res.text);
     const response: LikertResponse = {
       raw: res.text,
