@@ -16,27 +16,13 @@ export const HomePage = () => {
   const onCloseModal = () => setIsModalOpen(false);
   const [result, setResult] = useState<Result>();
 
-  const [personId, setPersonId] = useState<string>();
-  const [questionnaireId, setQuestionnaireId] = useState<string>();
+  const [personId, setPersonId] = useState<string>("");
+  const [questionnaireId, setQuestionnaireId] = useState<string>("");
 
-  const peopleQuery = useQuery({
-    ...personQueries.fetchAll(),
-    onSuccess: (data) => {
-      if (data.length > 0) {
-        setPersonId(data[0].id);
-      }
-    },
-  });
+  const peopleQuery = useQuery(personQueries.fetchAll());
   const people = peopleQuery.data ?? [];
 
-  const questionnairesQuery = useQuery({
-    ...questionnaireQueries.fetchAll(),
-    onSuccess: (data) => {
-      if (data.length > 0) {
-        setQuestionnaireId(data[0].id);
-      }
-    },
-  });
+  const questionnairesQuery = useQuery(questionnaireQueries.fetchAll());
   const questionnaires = questionnairesQuery.data ?? [];
 
   const mutation = useMutation({
@@ -57,6 +43,13 @@ export const HomePage = () => {
   });
 
   const onSubmit = () => {
+    if (personId === "") {
+      return toast.error("人物を選択してください");
+    }
+    if (questionnaireId === "") {
+      return toast.error("アンケートを選択してください");
+    }
+
     const processing = mutation.mutateAsync();
     toast.promise(processing, {
       loading: "Waiting...",
@@ -80,11 +73,19 @@ export const HomePage = () => {
           {people && (
             <Select
               label="人物"
-              options={people.map((v) => ({
-                id: v.id,
-                label: v.name,
-                value: v.id,
-              }))}
+              options={people
+                .map((v) => ({
+                  id: v.id,
+                  label: v.name,
+                  value: v.id,
+                }))
+                .concat([
+                  {
+                    id: "",
+                    label: "選択されていません",
+                    value: "",
+                  },
+                ])}
               onChange={(v) => setPersonId(v.target.value)}
             />
           )}
@@ -99,11 +100,19 @@ export const HomePage = () => {
           {questionnaires && (
             <Select
               label="アンケート"
-              options={questionnaires.map((v) => ({
-                id: v.id,
-                label: v.name,
-                value: v.id,
-              }))}
+              options={questionnaires
+                .map((v) => ({
+                  id: v.id,
+                  label: v.name,
+                  value: v.id,
+                }))
+                .concat([
+                  {
+                    id: "",
+                    label: "選択されていません",
+                    value: "",
+                  },
+                ])}
               onChange={(v) => setQuestionnaireId(v.target.value)}
             />
           )}
