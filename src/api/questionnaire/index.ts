@@ -87,7 +87,7 @@ questionnaireRoute.post(
 
 export type LikertResponse = {
   raw: string;
-  data: { question: string; answer: string }[];
+  data: { question: string; answer: string; consideration: string }[];
 };
 
 questionnaireRoute.post(
@@ -105,7 +105,7 @@ questionnaireRoute.post(
       new SystemChatMessage(questionnairePrompt.likert),
       new HumanChatMessage(message),
     ]);
-    console.log(res)
+    console.log(res);
     const result = parseCSV(res.text);
     const response: LikertResponse = {
       raw: res.text,

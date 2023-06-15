@@ -2,6 +2,7 @@ import { LikertResponse } from "@/api/questionnaire";
 import { TextButton } from "@/components/button";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import { BiInfoCircle } from "react-icons/bi";
 
 export type Result = {
   personName: string;
@@ -66,6 +67,9 @@ export const ResultModal = ({ result, isOpen, onClose }: ResultModalProps) => {
                           <th className="border border-slate-300 p-2 whitespace-nowrap">
                             回答
                           </th>
+                          <th className="border border-slate-300 p-2 whitespace-nowrap">
+                            考察
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -76,6 +80,14 @@ export const ResultModal = ({ result, isOpen, onClose }: ResultModalProps) => {
                             </td>
                             <td className="border border-slate-300 p-1 text-center">
                               {v.answer}
+                            </td>
+                            <td className="border border-slate-300 p-1 text-center">
+                              <button
+                                onClick={() => alert(v.consideration)}
+                                className="hover:bg-slate-200 p-1 rounded-md"
+                              >
+                                <BiInfoCircle size={18} />
+                              </button>
                             </td>
                           </tr>
                         ))}
