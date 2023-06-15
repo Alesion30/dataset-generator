@@ -82,12 +82,14 @@ export const ResultModal = ({ result, isOpen, onClose }: ResultModalProps) => {
                               {v.answer}
                             </td>
                             <td className="border border-slate-300 p-1 text-center">
-                              <button
-                                onClick={() => alert(v.consideration)}
-                                className="hover:bg-slate-200 p-1 rounded-md"
-                              >
-                                <BiInfoCircle size={18} />
-                              </button>
+                              {v.consideration && (
+                                <button
+                                  onClick={() => alert(v.consideration)}
+                                  className="hover:bg-slate-200 p-1 rounded-md"
+                                >
+                                  <BiInfoCircle size={18} />
+                                </button>
+                              )}
                             </td>
                           </tr>
                         ))}
