@@ -88,6 +88,7 @@ export const HomePage = () => {
                 ])}
               onChange={(v) => setPersonId(v.target.value)}
               disabled={mutation.isLoading}
+              value={personId}
             />
           )}
           <Link
@@ -116,6 +117,7 @@ export const HomePage = () => {
                 ])}
               onChange={(v) => setQuestionnaireId(v.target.value)}
               disabled={mutation.isLoading}
+              value={questionnaireId}
             />
           )}
           <Link

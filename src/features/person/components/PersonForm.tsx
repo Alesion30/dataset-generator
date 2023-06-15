@@ -92,7 +92,7 @@ export const PersonForm = ({
               name="personality"
               control={control}
               render={({ field }) => (
-                <Textarea label="性格" id="personality" rows={3} {...field} />
+                <Textarea label="性格" id="personality" rows={10} {...field} />
               )}
             />
           </div>
