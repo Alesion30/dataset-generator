@@ -33,7 +33,11 @@ export const Select = ({ label, options, ...selectProps }: SelectProps) => {
         {...selectProps}
       >
         {options.map((option) => {
-          return <option key={option.id} {...option} />;
+          return (
+            <option key={option.id} {...option}>
+              {option.label}
+            </option>
+          );
         })}
       </select>
     </div>
