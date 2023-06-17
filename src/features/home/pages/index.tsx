@@ -9,6 +9,7 @@ import { gptApi } from "../api";
 import toast from "react-hot-toast";
 import { pagePaths } from "@/constants/pagePaths";
 import { Result, ResultModal } from "../components/ResultModal";
+import { BiInfoCircle } from "react-icons/bi";
 
 export const HomePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -88,12 +89,23 @@ export const HomePage = () => {
               value={personId}
             />
           )}
-          <Link
-            href={pagePaths.person.$url()}
-            className="text-xs hover:underline"
-          >
-            人物を管理する
-          </Link>
+          <div className="flex justify-between mt-2">
+            <Link
+              href={pagePaths.person.$url()}
+              className="text-xs hover:underline"
+            >
+              人物を管理する
+            </Link>
+            {person && (
+              <Link
+                href={pagePaths.person._id(person.id).$url()}
+                className="text-xs hover:underline flex items-center gap-0.5"
+              >
+                <BiInfoCircle size={12} />
+                {person.name}の情報
+              </Link>
+            )}
+          </div>
         </div>
         <div>
           {questionnaires && (
@@ -117,12 +129,23 @@ export const HomePage = () => {
               value={questionnaireId}
             />
           )}
-          <Link
-            href={pagePaths.questionnaires.$url()}
-            className="text-xs hover:underline"
-          >
-            アンケートを管理する
-          </Link>
+          <div className="flex justify-between mt-2">
+            <Link
+              href={pagePaths.questionnaires.$url()}
+              className="text-xs hover:underline"
+            >
+              アンケートを管理する
+            </Link>
+            {questionnaire && (
+              <Link
+                href={pagePaths.questionnaires._id(questionnaire.id).$url()}
+                className="text-xs hover:underline flex items-center gap-0.5"
+              >
+                <BiInfoCircle size={12} />
+                {questionnaire.name}の情報
+              </Link>
+            )}
+          </div>
         </div>
       </div>
 
