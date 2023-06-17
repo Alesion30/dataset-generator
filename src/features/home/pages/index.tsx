@@ -71,19 +71,17 @@ export const HomePage = () => {
           {people && (
             <Select
               label="人物"
-              options={people
-                .map((v) => ({
+              options={[
+                ...people.map((v) => ({
                   id: v.id,
                   label: v.name,
                   value: v.id,
-                }))
-                .concat([
-                  {
-                    id: "",
-                    label: "選択されていません",
-                    value: "",
-                  },
-                ])}
+                })),
+                {
+                  label: "選択されていません",
+                  hidden: true,
+                },
+              ]}
               onChange={(v) => setPersonId(v.target.value)}
               disabled={mutation.isLoading}
               value={personId}
@@ -102,7 +100,7 @@ export const HomePage = () => {
                 className="text-xs hover:underline flex items-center gap-0.5"
               >
                 <BiInfoCircle size={12} />
-                {person.name}の情報
+                情報
               </Link>
             )}
           </div>
@@ -111,19 +109,17 @@ export const HomePage = () => {
           {questionnaires && (
             <Select
               label="アンケート"
-              options={questionnaires
-                .map((v) => ({
+              options={[
+                ...questionnaires.map((v) => ({
                   id: v.id,
                   label: v.name,
                   value: v.id,
-                }))
-                .concat([
-                  {
-                    id: "",
-                    label: "選択されていません",
-                    value: "",
-                  },
-                ])}
+                })),
+                {
+                  label: "選択されていません",
+                  hidden: true,
+                },
+              ]}
               onChange={(v) => setQuestionnaireId(v.target.value)}
               disabled={mutation.isLoading}
               value={questionnaireId}
@@ -142,7 +138,7 @@ export const HomePage = () => {
                 className="text-xs hover:underline flex items-center gap-0.5"
               >
                 <BiInfoCircle size={12} />
-                {questionnaire.name}の情報
+                情報
               </Link>
             )}
           </div>
