@@ -79,6 +79,7 @@ export const HomePage = () => {
                 })),
                 {
                   label: "選択されていません",
+                  value: "",
                   hidden: true,
                 },
               ]}
@@ -117,6 +118,7 @@ export const HomePage = () => {
                 })),
                 {
                   label: "選択されていません",
+                  value: "",
                   hidden: true,
                 },
               ]}
