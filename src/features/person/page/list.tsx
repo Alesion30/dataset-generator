@@ -11,14 +11,14 @@ export const PersonListPage = () => {
 
   return (
     <div className="container mx-auto my-10 px-4">
-      <Link href={pagePaths.$url()}>
+      <Link href={pagePaths.$url()} className="inline-block">
         <div className="hover:bg-gray-100 rounded-md p-2 inline-block">
           <MdArrowBack size={24} />
         </div>
       </Link>
       <div className="px-4 my-10 space-y-10">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-semibold leading-7 text-gray-900">
+        <div className="flex justify-end md:justify-between items-center">
+          <h2 className="text-2xl font-semibold leading-7 text-gray-900 md:block hidden">
             人物プリセット一覧
           </h2>
           <Link href={pagePaths.person.register.$url()}>
@@ -40,7 +40,7 @@ export const PersonListPage = () => {
                   </div>
                   <Link
                     href={pagePaths.person._id(person.id).$url()}
-                    className="p-2 hover:bg-gray-200 rounded-md"
+                    className="p-2 hover:bg-gray-200 rounded-md inline-block"
                   >
                     <BiInfoCircle size={24} />
                   </Link>

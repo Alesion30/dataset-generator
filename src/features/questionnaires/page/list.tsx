@@ -14,14 +14,14 @@ export const QuestionnaireListPage = () => {
 
   return (
     <div className="container mx-auto my-10 px-4">
-      <Link href={pagePaths.$url()}>
+      <Link href={pagePaths.$url()} className="inline-block">
         <div className="hover:bg-gray-100 rounded-md p-2 inline-block">
           <MdArrowBack size={24} />
         </div>
       </Link>
       <div className="px-4 my-10 space-y-10">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-semibold leading-7 text-gray-900">
+        <div className="flex justify-end md:justify-between items-center">
+          <h2 className="text-2xl font-semibold leading-7 text-gray-900 md:block hidden">
             アンケートプリセット一覧
           </h2>
           <Link href={pagePaths.questionnaires.register.$url()}>

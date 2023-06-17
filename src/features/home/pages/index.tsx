@@ -21,21 +21,18 @@ export const HomePage = () => {
 
   const peopleQuery = useQuery(personQueries.fetchAll());
   const people = peopleQuery.data ?? [];
+  const person = people.find((v) => v.id === personId);
 
   const questionnairesQuery = useQuery(questionnaireQueries.fetchAll());
   const questionnaires = questionnairesQuery.data ?? [];
+  const questionnaire = questionnaires.find((v) => v.id === questionnaireId);
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const person = people.find((v) => v.id === personId)!;
-      const questionnaire = questionnaires.find(
-        (v) => v.id === questionnaireId
-      )!;
-
-      const result = await gptApi.likert(person, questionnaire);
+      const result = await gptApi.likert(person!, questionnaire!);
       setResult({
-        personName: person.name,
-        questionnaireName: questionnaire.name,
+        personName: person!.name,
+        questionnaireName: questionnaire!.name,
         data: result.data,
       });
       onOpenModal();
@@ -68,7 +65,7 @@ export const HomePage = () => {
           人物とアンケートをそれぞれ選択すると、AIが適切な回答を出力してくれます
         </p>
       </div>
-      <div className="space-y-6" style={{ width: 400 }}>
+      <div className="space-y-6 w-full sm:w-96">
         <div>
           {people && (
             <Select

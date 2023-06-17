@@ -48,7 +48,7 @@ export const QuestionnaireForm = ({
 
   return (
     <form onSubmit={onSubmit} className="container mx-auto my-10 px-4">
-      <Link href={pagePaths.questionnaires.$url()}>
+      <Link href={pagePaths.questionnaires.$url()} className="inline-block">
         <div className="hover:bg-gray-100 rounded-md p-2 inline-block">
           <MdArrowBack size={24} />
         </div>

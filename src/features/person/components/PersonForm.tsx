@@ -41,7 +41,7 @@ export const PersonForm = ({
 
   return (
     <form onSubmit={onSubmit} className="container mx-auto my-10 px-4">
-      <Link href={pagePaths.person.$url()}>
+      <Link href={pagePaths.person.$url()} className="inline-block">
         <div className="hover:bg-gray-100 rounded-md p-2 inline-block">
           <MdArrowBack size={24} />
         </div>
